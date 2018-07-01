@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Card, CardSection, Input, Button, Spinner } from './common'
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { emailChanged, passwordChanged, loginUser } from '../actions/AuthActions';
 
 
 class LoginForm extends Component{
