@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform,  } from 'react-native';
+import { Platform } from 'react-native';
 import { Scene, Router, Actions } from "react-native-router-flux";
 
 import LoginForm from "./components/LoginForm";
