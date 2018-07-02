@@ -5,6 +5,7 @@ import { Scene, Router, Actions } from "react-native-router-flux";
 import LoginForm from "./components/LoginForm";
 import EmployeeList from "./components/EmployeeList";
 import EmployeeCreate from "./components/EmployeeCreate";
+import EmployeeEdit from "./components/EmployeeEdit";
 
 const RouterComponent = () => {
     const { headerTitleStyle, employeesTitleStyle, createEmployeeTitleStyle } = styles;
@@ -26,13 +27,21 @@ const RouterComponent = () => {
                         title="Employees"
                         titleStyle={[headerTitleStyle, employeesTitleStyle]}
                         rightTitle="Add"
-                        onRight={() => Actions.employeeCreate()}
+                        onRight={() => {
+                            Actions.employeeCreate()
+                        }}
                         rightButtonStyle={{width: 40}}
                     />
                     <Scene
                         key="employeeCreate"
                         component={EmployeeCreate}
                         title="Create Employee"
+                        titleStyle={[headerTitleStyle, createEmployeeTitleStyle]}
+                    />
+                    <Scene
+                        key="employeeEdit"
+                        component={EmployeeEdit}
+                        title="Edit Employee"
                         titleStyle={[headerTitleStyle, createEmployeeTitleStyle]}
                     />
                 </Scene>
@@ -50,10 +59,10 @@ const styles = {
         textAlign: 'center'
     },
     employeesTitleStyle: {
-        marginRight: (Platform.OS === "android") ? -56 : 0,
+        marginRight: (Platform.OS === "android") ? -56 : 0
     },
     createEmployeeTitleStyle: {
-        marginLeft: -10
+        marginLeft: (Platform.OS === "android") ? -10 : 0
     }
 };
 

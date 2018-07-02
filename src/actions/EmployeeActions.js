@@ -3,8 +3,9 @@ import { Actions } from 'react-native-router-flux';
 
 import {
     EMPLOYEE_UPDATE,
+    EMPLOYEES_FETCH_SUCCESS,
     EMPLOYEE_CREATE,
-    EMPLOYEES_FETCH_SUCCESS
+    EMPLOYEE_SAVE
 } from './types';
 
 export const employeeUpdate = ({ prop, value }) => {
@@ -38,4 +39,22 @@ export const employeesFetch = () => {
             });
         })
     };
+};
+
+export const employeeSave = ({ name, phone, shift, uid }) =>  {
+    const { currentUser } = firebase .auth();
+
+    return (dispatch) => {
+        firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+            .set({ name, phone, shift })
+            .then(() => {
+                Actions.pop('employeeList');
+                dispatch({ type: EMPLOYEE_SAVE })
+            });
+    };
+
+};
+
+export const clearFormEmployee = () => {
+    return { type: EMPLOYEE_SAVE };
 };
