@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Picker, Text, StyleSheet, Platform } from 'react-native';
+import { Picker, Text, Platform } from 'react-native';
 import { connect } from "react-redux";
 
 import { Button, Card, CardSection, Input} from "./common";
-import { employeeUpdate } from "../actions";
+import { employeeUpdate, employeeCreate } from "../actions";
 import { days } from '../constant'
 
 class EmployeeCreate extends Component {
+
+    onButtonPress() {
+        const { name, phone, shift } = this.props;
+
+        console.log(this.props);
+
+        employeeCreate({ name, phone, shift: shift || 'Monday' })
+    }
 
     renderDaysInPicker() {
         return days.map(day=>
@@ -31,7 +39,7 @@ class EmployeeCreate extends Component {
                         label="Phone"
                         placeholder="5-55-55"
                         value={this.props.phone}
-                        onChange={value => this.props.employeeUpdate({prop: 'phone', value })}
+                        onChangeText={value => this.props.employeeUpdate({prop: 'phone', value })}
                     />
                 </CardSection>
                 <CardSection style={pickerCardSectionStyle}>
@@ -45,7 +53,7 @@ class EmployeeCreate extends Component {
                     </Picker>
                 </CardSection>
                 <CardSection>
-                    <Button>
+                    <Button onPress={this.onButtonPress.bind(this)}>
                         Create
                     </Button>
                 </CardSection>
@@ -58,7 +66,6 @@ const styles = {
     pickerLabelText: {
         fontSize: 18,
         paddingLeft: 20,
-        // paddingTop: 10,
         flex: Platform.OS === "android" ? 1 : 0
     },
     pickerCardSectionStyle: {
@@ -76,4 +83,4 @@ const mapStateToProps = (state) => {
     return { name, phone, shift };
 };
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate);
+export default connect(mapStateToProps, { employeeUpdate, employeeCreate })(EmployeeCreate);

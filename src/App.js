@@ -21,6 +21,7 @@ export default class App extends Component{
             storageBucket: "auth-react-cbf3e.appspot.com",
             messagingSenderId: "449649701681"
         };
+
         firebase.initializeApp(config);
     }
 

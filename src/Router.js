@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform,  } from 'react-native';
 import { Scene, Router, Actions } from "react-native-router-flux";
 
 import LoginForm from "./components/LoginForm";
@@ -12,11 +12,15 @@ const RouterComponent = () => {
     return (
         <Router>
             <Scene key="root"  hideNavBar>
-                <Scene key="auth">
-                    <Scene key="login" component={LoginForm} title="Please login"  />
-                </Scene>
-                <Scene key="main" initial>
+                <Scene key="auth" initial>
                     <Scene
+                        key="login"
+                        component={LoginForm}
+                        title="Please login"
+                        titleStyle={headerTitleStyle} />
+                </Scene>
+                <Scene key="main">
+                    <Scene initial
                         key="employeeList"
                         component={EmployeeList}
                         title="Employees"
@@ -25,7 +29,7 @@ const RouterComponent = () => {
                         onRight={() => Actions.employeeCreate()}
                         rightButtonStyle={{width: 40}}
                     />
-                    <Scene initial
+                    <Scene
                         key="employeeCreate"
                         component={EmployeeCreate}
                         title="Create Employee"
