@@ -5,7 +5,7 @@ import {
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
-    LOGIN_USER
+    LOGIN_USER, VALIDATE_EMAIL, SET_ERROR
 } from "./types";
 
 export const emailChanged = (text) => {
@@ -47,4 +47,18 @@ const loginUserSuccess = (dispatch, user) => {
     });
 
     Actions.main();
+};
+
+export const validateEmail = (status) => {
+    return {
+        type: VALIDATE_EMAIL,
+        payload: status
+    };
+};
+
+export const setError = (error) => {
+    return {
+        type: SET_ERROR,
+        payload: error
+    };
 };

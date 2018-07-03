@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Card, CardSection, Input, Button, Spinner } from './common'
-import { emailChanged, passwordChanged, loginUser } from '../actions/AuthActions';
+import { emailChanged, passwordChanged, loginUser, validateEmail, setError } from '../actions/AuthActions';
 
 
 class LoginForm extends Component{
@@ -38,13 +38,28 @@ class LoginForm extends Component{
         }
 
         return (
-            <Button onPress={this.onButtonPress.bind(this)}>
+            <Button
+                onPress={this.onButtonPress.bind(this)}
+                disabled={!this.props.validation.email}
+            >
                 Login
             </Button>
         );
     }
 
+    validateEmail() {
+        const { email, validateEmail } = this.props;
+        const regex = /\S+@\S+\.\S+/;
+        const valid = regex.test(email);
 
+        validateEmail(valid);
+
+        if(!valid) {
+            this.props.setError('Please enter valid email');
+        } else {
+            this.props.setError('');
+        }
+    }
 
     render() {
         return (
@@ -53,7 +68,10 @@ class LoginForm extends Component{
                     <Input
                         label={'Email'}
                         placeholder={'email@gmail.com'}
+                        keyboardType={'email-address'}
                         onChangeText={this.onEmailChange.bind(this)}
+                        onBlur={this.validateEmail.bind(this, this.props.email)}
+                        style={this.props.validation.email ? {} : styles.invalidInput }
                         value={this.props.email}
                     />
                 </CardSection>
@@ -81,19 +99,25 @@ const styles = {
         fontSize: 20,
         alignSelf: 'center',
         justifyContent: 'center'
+    },
+    invalidInput: {
+        borderBottomWidth: 1.5,
+        borderBottomColor: 'red'
     }
 };
 
 const mapStateToProps = state => {
-    const { email, password, error, loading } = state.auth;
+    const { email, password, error, loading, validation } = state.auth;
 
-    return { email, password, error, loading };
+    return { email, password, error, loading, validation };
 };
 
 const actions = {
     emailChanged,
     passwordChanged,
-    loginUser
+    loginUser,
+    validateEmail,
+    setError
 };
 
 export default connect(mapStateToProps, actions)(LoginForm);
